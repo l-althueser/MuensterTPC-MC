@@ -12,7 +12,7 @@
 # --------------------------------------------------------------
 
 # get full name of the main class file
-name := $(shell find -name 'muensterTPCsim*.cc' -exec basename {} .cc \;)
+name := $(shell find -name 'MuensterTPC-*.cc' -exec basename {} .cc \;)
 G4TARGET := $(name)
 G4EXLIB := true
 
