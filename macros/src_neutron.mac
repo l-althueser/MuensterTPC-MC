@@ -1,16 +1,9 @@
 #/******************************************************************
-# * muensterTPCsim
+# * MuensterTPC-Simulation
 # * 
-# * Simulations of the Muenster TPC
-# * 
-# * @author Lutz Althüser
-# * @date   2015-04-14
-# *
-# * @comment beam test
+# * neutron
 # ******************************************************************/
-/tracking/verbose 2
 /Xe/gun/particle neutron
 /Xe/gun/position 0 0 -40 mm
 /Xe/gun/direction 0 0 1
 /Xe/gun/energy 500 keV
-/run/beamOn 1

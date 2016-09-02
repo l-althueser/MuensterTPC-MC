@@ -4,7 +4,6 @@
  * Simulations of the Muenster dual phase xenon TPC
  * 
  * @author Lutz Althueser
- * @date   2015-09-28
  *
  * @comment This is the main class of the Muenster dual phase xenon TPC.
  *					It includes ..
@@ -21,6 +20,7 @@
  *							see PhysicsList.cc
  ******************************************************************/
 // include C++ classes
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <unistd.h>
@@ -48,42 +48,123 @@
 #include "muensterTPCEventAction.hh"
 #include "muensterTPCActionInitialization.hh"
 
+void usage();
+inline bool fileexists (const string& name);
+inline bool fileexists (const char* name);
+
 //******************************************************************/
 // call of the main function with optional arguments 
 //******************************************************************/
 int main(int argc, char **argv)
 {
-	// Detect interactive mode (if no arguments) and define UI session
- 	G4UIExecutive* ui = 0;
- 	if ( argc == 1 ) ui = new G4UIExecutive(argc, argv, "qt");
-
-  // get local time for the output file time stamp
+	G4cout 	<< "===========================================" 	<< G4endl;
+	G4cout	<< "Starting MuensterTPC-Simulation ..."			<< G4endl;
+	G4cout 	<< "===========================================" 	<< G4endl;
+	
+	// get local time for the output file time stamp
 	time_t time_un;
 	tm *time_now;
 	time_un = time(0);
 	time_now = localtime(&time_un);
-	stringstream DatafileName;
-	DatafileName << time_now->tm_year+1900 << "-" << time_now->tm_mon+1 
+	stringstream hTimeStamp;
+	hTimeStamp << time_now->tm_year+1900 << "-" << time_now->tm_mon+1 
 		     << "-" << time_now->tm_mday << "_" << time_now->tm_hour
-		     << "-" << time_now->tm_min << "-" << time_now->tm_sec
-		     << "_";
+		     << "-" << time_now->tm_min << "-" << time_now->tm_sec;
 
-	G4String fileName;
+	// switches
+	int c = 0;
+	
+	bool bInteractive = false;
+	bool bPreInitFromFile = false;
+	bool bMacroFile = false;
+	bool bDataFilename = false;
+	bool bVerbosities = false;
+	int iVerbosities = 0;
+	int iNbEventsToSimulate = 0;
+	string hPreInitFilename, hMacroFilename, hDataFilename;
+	stringstream hStream;
+	
+	// parse switches
+	// p: preinit with custom file
+	// f: macro file (init source type)
+	// o: output file name
+	// n: number of events to simulate
+	// i: interactive session
+	// v: turn on debug verbosities
+	if ( argc == 1 ) { bInteractive = true; }
+	while((c = getopt(argc,argv,"p:f:o:n:v:i")) != -1) {
+		switch(c)	{
+			case 'p':
+				bPreInitFromFile = true;
+				if (fileexists(optarg))
+					hPreInitFilename = optarg;
+				else
+					{ G4cout << "File '" << optarg << "' not found!" << G4endl; usage(); }
+				break;
 
- 	if ( ! ui ) { 
-		fileName = argv[1];
+			case 'f':
+				bMacroFile = true;
+				if (fileexists(optarg))
+					hMacroFilename = optarg;
+				else
+					{ G4cout << "File '" << optarg << "' not found!" << G4endl; usage(); }
+				break;
 
-		// delete the path to the macro file while building the datafile name
-		// /home/../test.mac will save a test.mac.root file in the working directory
-		unsigned found=fileName.find_last_of("/");
+			case 'o':
+				bDataFilename = true;
+				hDataFilename = optarg;
+				break;
+
+			case 'n':
+				hStream.str(optarg);
+				hStream.clear();
+				hStream >> iNbEventsToSimulate;
+				break;
+				
+			case 'v':
+				bVerbosities = true;
+				hStream.str(optarg);
+				hStream.clear();
+				hStream >> iVerbosities;
+				break;
+				
+			case 'i':
+				bInteractive = true;
+				break;
+
+			default:
+				usage();
+		}
+	}
+	
+	G4UIExecutive* ui = 0;
+	if (bInteractive) {	ui = new G4UIExecutive(argc, argv, "Qt"); }
+	else if (!bMacroFile) { usage(); }
+	
+	stringstream DatafileName;
+	DatafileName.clear();
+ 	size_t found;
+	if (bDataFilename) {
+		found=hDataFilename.find_last_of("/");
  		if (found!=std::string::npos)
-		  DatafileName << fileName.substr(found+1) << ".root";
+			DatafileName << hDataFilename.substr(0,found+1) << hTimeStamp.str() << "_" << hDataFilename.substr(found+1);
 		else
- 		  DatafileName << fileName << ".root";
-  }
-  else { 
-		// flag the root data with 'interactive'
-		DatafileName << "interactive" << ".root";
+			DatafileName << hTimeStamp.str() << "_" << hDataFilename;
+	}
+	else {
+		if (bMacroFile) {
+			string hMacroFilenameshort = hMacroFilename;
+			found=hMacroFilenameshort.find_last_of(".mac");
+			if (found!=std::string::npos) { hMacroFilenameshort=hMacroFilenameshort.substr(0,found-3); }
+			found=hMacroFilenameshort.find_last_of("/");
+			if (found!=std::string::npos)
+				DatafileName << hTimeStamp.str() << "_" << hMacroFilenameshort.substr(found+1) << ".root";
+			else
+				DatafileName << hTimeStamp.str() << "_" << hMacroFilenameshort << ".root";
+		}
+		else {
+			DatafileName << hTimeStamp.str() << "_" << "events" << ".root";
+		}
 	}
 
 	// create the run manager
@@ -101,40 +182,91 @@ int main(int argc, char **argv)
 	// create the primary generator action
 	muensterTPCPrimaryGeneratorAction *pPrimaryGeneratorAction = new muensterTPCPrimaryGeneratorAction();
 	pRunManager->SetUserInitialization(new muensterTPCActionInitialization(DatafileName.str(), pPrimaryGeneratorAction));
-	pRunManager->Initialize();
 
 	// start visualization and ui manager
 	G4VisManager* pVisManager = new G4VisExecutive;
 	pVisManager->Initialize();
 	G4UImanager* pUImanager = G4UImanager::GetUIpointer();
 	
- 	// Process macro or start UI session
- 	if ( ! ui ) { 
-		// batch mode - call macro file of the optional parameter
- 		G4String command = "/control/execute ";
-
-		// run the macro
- 		pUImanager->ApplyCommand(command+fileName);
-  }
-  else { 
-  	// interactive mode
-		// .. execute the initialisation macro for visualization manager in generall
-  	pUImanager->ApplyCommand("/control/execute macros/vis_init.mac");
-		// .. execute the customization macro for the QT VI manager
-		pUImanager->ApplyCommand("/control/execute macros/vis_Qt.mac");
-
-		// start ui and delete it when the user closes the ui
-  	ui->SessionStart();  	
+	G4String hCommand;
+	if(bPreInitFromFile) {
+		hCommand = "/control/execute " + hPreInitFilename;
+		pUImanager->ApplyCommand(hCommand);
+	}
+	else if(bVerbosities) {
+		hStream.str("");
+		hStream.clear();
+		hStream << "/control/verbose " << iNbEventsToSimulate;
+		pUImanager->ApplyCommand(hStream.str());
+		pUImanager->ApplyCommand("/control/saveHistory");
+		hStream.str("");
+		hStream.clear();
+		hStream << "/run/verbose " << iNbEventsToSimulate;
+		pUImanager->ApplyCommand(hStream.str());
+		hStream.str("");
+		hStream.clear();
+		hStream << "/event/verbose " << iNbEventsToSimulate;
+		pUImanager->ApplyCommand(hStream.str());
+		hStream.str("");
+		hStream.clear();
+		hStream << "/tracking/verbose " << iNbEventsToSimulate;
+		pUImanager->ApplyCommand(hStream.str());
+		pUImanager->ApplyCommand("/control/execute macros/preinit_debug.mac");
+	}
+	else {
+		pUImanager->ApplyCommand("/control/execute macros/preinit.mac");
+	}
+	
+	pRunManager->Initialize();
+	
+ 	if ( bInteractive ) { pUImanager->ApplyCommand("/control/execute macros/vis.mac"); }
+	
+	// run time parameter settings
+	if(bMacroFile) {
+		hCommand = "/control/execute " + hMacroFilename;
+		pUImanager->ApplyCommand(hCommand);
+	}
+		
+	if(iNbEventsToSimulate)	{
+		hStream.str("");
+		hStream.clear();
+		hStream << "/run/beamOn " << iNbEventsToSimulate;
+		pUImanager->ApplyCommand(hStream.str());
+	}
+	
+	if ( bInteractive ) { 
+			// start ui and delete it when the user closes the ui
+		ui->SessionStart();  	
 		delete ui;
-		// note: The segmentation fault after closing the ui without simulating events is a bug in the current GEANT4 10.01 Version (2015-10-01)
-  }
+	}
   
 	// delete all created objects
-	delete pVisManager;
+	if(bInteractive) delete pVisManager;
 	delete pRunManager;
 	
+	G4cout 	<< "Datafile: " <<  DatafileName.str()				<< G4endl;
 	G4cout 	<< "===========================================" 	<< G4endl;
-	G4cout	<< "Simulation successfully completed :)" 				<< G4endl;
+	G4cout	<< "Simulation successfully completed :)"			<< G4endl;
 	G4cout 	<< "===========================================" 	<< G4endl;
 	return 0;	
 }
+
+void usage() {
+  exit(0);
+}
+
+inline bool fileexists (const string& name) {
+	return fileexists(name.c_str());
+}
+
+inline bool fileexists (const char* name) {
+    ifstream f(name);
+    if (f.good()) {
+        f.close();
+        return true;
+    } else {
+        f.close();
+        return false;
+    }   
+}
+

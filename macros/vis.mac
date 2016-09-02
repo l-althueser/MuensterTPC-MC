@@ -1,11 +1,12 @@
-#
 # Macro file for the initialization when running Qt
 #
 # Set verbosity levels
 /event/verbose 2
 /tracking/verbose 2
 /control/verbose 2
+/control/saveHistory
 /vis/verbose errors
+
 #
 # Create a scene handler and a viewer for the OGLSX driver
 /vis/open OGL

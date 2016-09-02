@@ -188,9 +188,8 @@ void muensterTPCDetectorConstruction::DefineMaterials() {
   G4double pdLXePhotonMomentum[]   = {6.91*eV, 6.98*eV, 7.05*eV}; //178nm 
   G4double pdLXeScintillation[]    = {0.1,     1.0,     0.1};
   G4double pdLXeRefractiveIndex[]  = {1.63,    1.61,    1.58};
-	//measured at some point in the past:
+  //measured at some point in the past:
   G4double pdLXeAbsorbtionLength[] = {100.*cm, 100.*cm, 100.*cm}; 
-  //G4double pdLXeAbsorbtionLength[] = {20.*cm, 20.*cm, 20.*cm};
   G4double pdLXeScatteringLength[] = {30.*cm,  30.*cm,  30.*cm};
 		
   G4MaterialPropertiesTable *pLXePropertiesTable = new G4MaterialPropertiesTable();

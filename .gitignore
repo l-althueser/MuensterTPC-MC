@@ -26,4 +26,6 @@
 *.exe
 *.out
 *.app
+
 MuensterTPC-Simulation
+G4History.macro
