@@ -17,15 +17,15 @@
 # Set absorption length - see detector construction
 /Xe/detector/setLXeAbsorbtionLength 100 cm
 
-# set properties of the volume source
-# only the active volume
-#/Xe/gun/halfz 84.5 mm
-#/Xe/gun/radius 40 mm
-#/Xe/gun/center 0 0 -84.5 mm
+# only the active volume (z: -2<>-169|x/y: -40<>40)
+/Xe/gun/halfz 84 mm
+/Xe/gun/radius 40.5 mm
+/Xe/gun/center 0 0 -85.5 mm
 
-/Xe/gun/halfz 135 mm
-/Xe/gun/radius 50 mm
-/Xe/gun/center 0 0 -84.5 mm
+# full volume
+#/Xe/gun/halfz 135 mm
+#/Xe/gun/radius 50 mm
+#/Xe/gun/center 0 0 -84.5 mm
 
 /Xe/gun/confine LXe GXe
 /Xe/gun/energy 0 keV
