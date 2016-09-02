@@ -40,7 +40,47 @@ The simulation offers the possibility to use some arguments in order to adjust e
 * `-v <verbositie_level>`: The verbosity level is `0` per default.
 * `-i`: This activates the `interactive` mode in a Qt window.
 
-### Simple `opticalphotn` simulation
+### Simple `opticalphoton` simulation
 ```
 ./MuensterTPC-Simulation -f ./macros/src_optPhot_DP.mac -o optPhot_1e8.root -n 100000000
 ```
+
+### The output file/file format
+You can simply view the generated simulation data with any version of [ROOT](https://root.cern.ch/). Just type ..
+```
+root
+new TBrowser
+```
+.. and navigate to the generated `events.root` file. Now you can do the normal click and drag routine of ROOT.  
+
+The output file has an specific file format which is described in the following.
+#### Top directory
+| Name | type | description |  
+| --- | --- | --- |
+| nbeventstosimulate | TParameter<int> | number of simulated events |  
+
+#### TDirectory::t1
+| Name | type | description |  
+| --- | --- | --- |
+| eventid | int | event number |
+| ntpmthits | int | |
+| nbpmthits | int | |
+| pmthits | int | |
+| etot | float | total G4 energy deposit in this event |
+| nsteps | int | number of G4 steps |
+| trackid  | int | track ID |
+| type  | string | particle type |
+| parentid  | int | track ID of parent |
+| parenttype  | string | particle type of parent |
+| creaproc  | string | process that created this particle |
+| edproc  | string | process for this particular energy deposit |
+| xp  | vector<float> | x coordinate of energy deposit (mm) |
+| yp  | vector<float> | y coordinate of energy deposit (mm) |
+| zp  | vector<float> | z coordinate of energy deposit (mm) |
+| ed  | vector<float> | energy deposit (keV) |
+| time  | vector<float> | timestamp of the current particle/trackid |
+| type_pri  | string | particle type of primary  |
+| e_pri  | vector<float> | energy of primary (keV) |
+| xp_pri  | vector<float> | x coordinate of primary particle (mm) |
+| yp_pri  | vector<float> | y coordinate of primary particle (mm) |
+| zp_pri  | vector<float> | z coordinate of primary particle (mm) |
