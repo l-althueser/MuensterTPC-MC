@@ -68,7 +68,7 @@ or as a point source:
 /Xe/gun/angtype iso
 ```
 For example, in the first snippet of code you are confining particles in a volume with a cylindrical shape centred in (0.,0.,-84.5) and with height of 270mm and radius of 50mm. Primary particles will be then generated uniformly inside that volume.  
-You can also be more specific by confining the generation volume to a specific detector volume. Let's confine for example a generation into the LXe. In that case, we have to add to the previous code the following line: 
+You can also be more specific by confining the generation volume to a specific detector volume. Let's confine for example a generation into the LXe (see below for volume names). In that case, we have to add to the previous code the following line: 
 ```
 /Xe/gun/confine LXe
 ```
@@ -132,7 +132,15 @@ The output file has an specific file format which is described in the following.
 | zp_pri  | vector<float> | z coordinate of primary particle (mm) |
 
 ### Detector geometry
-...  
+You can use the `interactive` mode to determine every volume name. This are the most recent ones:
+* LXe
+* GXe (with LXe as mother volume)
+* CopperRings*
+* Pmt*
+* PTFE*
+* GXeGridMesh*
+* LXeGridMesh*
+* ...  
 
 ### Sensitive detectors
 Two sensitive detectors are defined in the code: 
