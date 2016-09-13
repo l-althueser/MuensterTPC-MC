@@ -1,5 +1,5 @@
 # MuensterTPC-Simulation
-The MuensterTPC-Simulation was developed in order to built and test a small dual phase xenon TPC (height: 17cm, diameter: 8cm) at Muenster. This includes simulations with optical photons, external and internal radioactive sources. This software stands under the BSD license (see [LICENSE](./LICENSE)).
+The MuensterTPC-Simulation was developed in order to built and test a small dual phase xenon TPC (height: 17cm, diameter: 8cm) at Muenster. This includes simulations with optical photons, external and internal radioactive sources. This software stands under the BSD license (see [LICENSE](./LICENSE.md)).
 
 ## Installation Prerequisites
 This software can only be used with `GEANT4 10.02.p01 64bit` in Linux or Windows Subsystem for Linux. 
