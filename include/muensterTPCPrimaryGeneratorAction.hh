@@ -19,6 +19,8 @@
 
 #include <TRandom3.h>
 
+#include "muensterTPCPrimaryGeneratorMessenger.hh"
+
 class muensterTPCParticleSource;
 
 class G4Event;
@@ -35,9 +37,13 @@ public:
 	G4ThreeVector GetPositionOfPrimary() { return m_hPositionOfPrimary; }
 
 	void GeneratePrimaries(G4Event *pEvent);
+	void     SetWriteEmpty(G4bool doit){writeEmpty = doit;};
+	G4bool   GetWriteEmpty(){return writeEmpty;};
 
   private:
+	muensterTPCPrimaryGeneratorMessenger *m_pMessenger;
 	long m_lSeeds[2];
+	G4bool	writeEmpty;
 	G4String m_hParticleTypeOfPrimary;
 	G4double m_dEnergyOfPrimary;
 	G4ThreeVector m_hPositionOfPrimary;

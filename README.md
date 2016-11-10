@@ -37,7 +37,6 @@ The simulation offers the possibility to use some arguments in order to adjust e
 ./MuensterTPC-Simulation -p <custom_preinit.mac> -f <source_definition.mac> -o <outputfilename> -n <number_of_events> -v <verbositie_level> -i
 ```
 * `-p <custom_preinit.mac>`: A default `preinit.mac` will be used if no custom file is given.
-* `-p <custom_preinit.mac>`: A default `preinit.mac` will be used if no custom file is given.
 * `-f <source_definition.mac>`: This parameter has to be specified if `-i` is not set.
 * `-o <outputfilename>`: The output file name will be `events.root` or `<source_definition>.root` if not specified.
 * `-n <number_of_events>`: Has to be specified if `-i` is not set.
@@ -103,9 +102,15 @@ The output file has an specific file format which is described in the following.
 #### Top directory
 | Name | type | description |  
 | --- | --- | --- |
-| nbeventstosimulate | TParameter<int> | number of simulated events |  
+| G4VERSION | TName<string> | version of geant4 |  
+| MC_TAG | TName<string> | name of the simulation toolkit ("muensterTPC") |  
 
-#### TDirectory::t1
+#### TDirectory::events
+| Name | type | description |  
+| --- | --- | --- |
+| nbevents | TParameter<int> | number of simulated events |  
+
+#### TDirectory::events/events
 | Name | type | description |  
 | --- | --- | --- |
 | eventid | int | event number |

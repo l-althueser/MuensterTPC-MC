@@ -14,11 +14,12 @@
 #include <Randomize.hh>
 
 #include "muensterTPCParticleSource.hh"
-
 #include "muensterTPCPrimaryGeneratorAction.hh"
+#include "muensterTPCPrimaryGeneratorMessenger.hh"
 
 muensterTPCPrimaryGeneratorAction::muensterTPCPrimaryGeneratorAction()
 {
+	m_pMessenger = new muensterTPCPrimaryGeneratorMessenger(this);
 	m_pParticleSource = new muensterTPCParticleSource();
 
 	m_hParticleTypeOfPrimary = "";

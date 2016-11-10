@@ -18,6 +18,7 @@
 #include <G4Event.hh>
 #include <G4HCofThisEvent.hh>
 #include <G4SystemOfUnits.hh>
+#include <G4Version.hh>
 
 // include C++ classes
 #include <numeric>
@@ -27,6 +28,7 @@
 #include <TFile.h>
 #include <TTree.h>
 #include <TParameter.h>
+#include <TDirectory.h>
 
 // include Muenster TPC classes
 #include "muensterTPCPrimaryGeneratorAction.hh"
@@ -53,6 +55,7 @@ muensterTPCAnalysisManager::muensterTPCAnalysisManager(muensterTPCPrimaryGenerat
 	m_pPrimaryGeneratorAction = pPrimaryGeneratorAction;
 	// declaration of the EventData class
 	m_pEventData = new muensterTPCEventData();
+	writeEmptyEvents = kFALSE;
 }
 
 
@@ -66,10 +69,21 @@ muensterTPCAnalysisManager::~muensterTPCAnalysisManager(){
 // define the BeginOfRun actions / prepare the output file for data output
 //******************************************************************/
 void muensterTPCAnalysisManager::BeginOfRun(const G4Run *pRun) {
+		// do we write empty events or not?
+		writeEmptyEvents = m_pPrimaryGeneratorAction->GetWriteEmpty();
+  
 		// create output file
 		m_pTreeFile = new TFile(m_hDataFilename.c_str(), "RECREATE", "File containing event data for muensterTPCsim");
+		TNamed *G4version = new TNamed("G4VERSION_TAG",G4VERSION_TAG);
+		G4version->Write();
+		TNamed *G4MCname = new TNamed("MC_TAG","muensterTPC");
+		G4MCname->Write();
+		
+		_events = m_pTreeFile->mkdir("events");
+		_events->cd();
+		
 		// create ROOT Tree for the simulation data
-		m_pTree = new TTree("t1", "Tree containing event data for muensterTPCsim");
+		m_pTree = new TTree("events", "Tree containing event data for muensterTPCsim");
 
 		// include missing ROOT classes
 		gROOT->ProcessLine("#include <vector>");
@@ -185,7 +199,7 @@ void muensterTPCAnalysisManager::BeginOfRun(const G4Run *pRun) {
 	
 		// Write the number of events in the output file
 		m_iNbEventsToSimulate = pRun->GetNumberOfEventToBeProcessed();
-		m_pNbEventsToSimulateParameter = new TParameter<int>("nbeventstosimulate", m_iNbEventsToSimulate);
+		m_pNbEventsToSimulateParameter = new TParameter<int>("nbevents", m_iNbEventsToSimulate);
 		m_pNbEventsToSimulateParameter->Write();
 }
 
@@ -243,20 +257,20 @@ void muensterTPCAnalysisManager::EndOfEvent(const G4Event *pEvent) {
 		}
 	}
 
+	m_pEventData->m_iEventId = pEvent->GetEventID();
+
+	m_pEventData->m_pPrimaryParticleType->push_back(m_pPrimaryGeneratorAction->GetParticleTypeOfPrimary());
+
+	m_pEventData->m_fPrimaryEnergy = m_pPrimaryGeneratorAction->GetEnergyOfPrimary()/keV;
+	m_pEventData->m_fPrimaryX = m_pPrimaryGeneratorAction->GetPositionOfPrimary().x()/mm;
+	m_pEventData->m_fPrimaryY = m_pPrimaryGeneratorAction->GetPositionOfPrimary().y()/mm;
+	m_pEventData->m_fPrimaryZ = m_pPrimaryGeneratorAction->GetPositionOfPrimary().z()/mm;
+
+	G4int iNbSteps = 0;
+	G4float fTotalEnergyDeposited = 0.;
+	
 	if(iNbLXeHits || iNbPmtHits)
 	{
-		m_pEventData->m_iEventId = pEvent->GetEventID();
-
-		m_pEventData->m_pPrimaryParticleType->push_back(m_pPrimaryGeneratorAction->GetParticleTypeOfPrimary());
-
-		m_pEventData->m_fPrimaryEnergy = m_pPrimaryGeneratorAction->GetEnergyOfPrimary()/keV;
-		m_pEventData->m_fPrimaryX = m_pPrimaryGeneratorAction->GetPositionOfPrimary().x()/mm;
-		m_pEventData->m_fPrimaryY = m_pPrimaryGeneratorAction->GetPositionOfPrimary().y()/mm;
-		m_pEventData->m_fPrimaryZ = m_pPrimaryGeneratorAction->GetPositionOfPrimary().z()/mm;
-
-		G4int iNbSteps = 0;
-		G4float fTotalEnergyDeposited = 0.;
-
 		// LXe hits
 		for(G4int i=0; i<iNbLXeHits; i++)
 		{
@@ -306,8 +320,13 @@ void muensterTPCAnalysisManager::EndOfEvent(const G4Event *pEvent) {
 		// m_pEventData->m_iNbBottomVetoPmtHits =	accumulate(m_pEventData->m_pPmtHits->begin()+iNbTopPmts+iNbBottomPmts+iNbTopVetoPmts, m_pEventData->m_pPmtHits->end(), 0);
 
 		//if((fTotalEnergyDeposited > 0. || iNbPmtHits > 0) && !FilterEvent(m_pEventData))
-		if(fTotalEnergyDeposited > 0. || iNbPmtHits > 0)
-			m_pTree->Fill();
+		
+	    // save only energy depositing events
+	    if(writeEmptyEvents) {
+			m_pTree->Fill(); // write all events to the tree
+	    } else {
+		    if(fTotalEnergyDeposited > 0. || iNbPmtHits > 0) m_pTree->Fill(); // only events with some activity are written to the tree
+	    }
 
 		// auto save functionality to avoid data loss/ROOT can recover aborted simulations
 		if ( pEvent->GetEventID() % 10000 == 0)

@@ -54,11 +54,15 @@ private:
 
 	TFile *m_pTreeFile;
 	TTree *m_pTree;
+	TDirectory *_events;
+	
 	TParameter<int> *m_pNbEventsToSimulateParameter;
 
 	muensterTPCPrimaryGeneratorAction *m_pPrimaryGeneratorAction;
 
 	muensterTPCEventData *m_pEventData;
+	
+	G4bool writeEmptyEvents;
 };
 
 #endif // __muensterTPCPANALYSISMANAGER_H__
