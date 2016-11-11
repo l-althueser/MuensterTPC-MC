@@ -40,16 +40,16 @@ void muensterTPCEventAction::BeginOfEventAction(const G4Event *pEvent) {
 		starttimeunix = mktime ( time_now ); // for UTC time use "timegm"
 		G4cout << "================================================================" << G4endl;
 		G4cout << "================================================================" << G4endl;
-		G4cout << "  ___                            ___														 " << G4endl;
-		G4cout << " ||  |   ___         ___        ||  |													 " << G4endl;
+		G4cout << "  ___                            ___	" << G4endl;
+		G4cout << " ||  |   ___         ___        ||  | " << G4endl;
 		G4cout << " || _|__/  _\\_______/  _\\_______|| _|  SIMULATION IN PROGRESS!" << G4endl;
-		G4cout << " ||(___(  (________(  (_________||((_)													 " << G4endl;
+		G4cout << " ||(___(  (________(  (_________||((_)	 " << G4endl;
 		G4cout << " ||  |  \\___/       \\___/       ||  |   PLEASE DO NOT SWITCH  " << G4endl;
 		G4cout << " ||  |         ___              ||  |        OFF THE PC!!       " << G4endl;
-		G4cout << " || _|________/  _\\_____________|| _|													 " << G4endl;
-		G4cout << " ||(_________(  (_______________||((_)													 " << G4endl;
-		G4cout << " ||  |        \\___/             ||  |    .-=-. ..							 " << G4endl;
-		G4cout << " ||  |                          ||  |   ,|`~'|   take					 " << G4endl;
+		G4cout << " || _|________/  _\\_____________|| _|	" << G4endl;
+		G4cout << " ||(_________(  (_______________||((_)	" << G4endl;
+		G4cout << " ||  |        \\___/             ||  |    .-=-. ..		 " << G4endl;
+		G4cout << " ||  |                          ||  |   ,|`~'|   take		" << G4endl;
 		G4cout << " ||  |                          ||  |   `|   |       some 		   " << G4endl;
 		G4cout << " ||  |                          ||  |     `~'            coffee!" << G4endl;
 		G4cout << "================================================================" << G4endl;		
