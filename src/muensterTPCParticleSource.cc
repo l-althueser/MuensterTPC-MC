@@ -96,7 +96,7 @@ G4bool
 muensterTPCParticleSource::ReadEnergySpectrum()
 {
 	// read the energy spectrum from the file
-	ifstream hIn(m_hEnergyFile.c_str());
+	std::ifstream hIn(m_hEnergyFile.c_str());
 
 	if(hIn.fail())
 	{

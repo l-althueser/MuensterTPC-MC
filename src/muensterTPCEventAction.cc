@@ -13,6 +13,7 @@
  ******************************************************************/
 #include <G4Event.hh>
 #include <string>
+#include <stdio.h>
 #include <sstream>
 #include <unistd.h>
 #include <sys/time.h>
@@ -73,7 +74,7 @@ void muensterTPCEventAction::BeginOfEventAction(const G4Event *pEvent) {
 			strftime(endtime, sizeof(endtime), "%Y-%m-%d %H-%M-%S", time_end);
 			G4cout 	<< "\r" << currtime.str() << " || Event " << pEvent->GetEventID()
 							<< " / " << m_iNbEventsToSimulate << " || E/s " << pEvent->GetEventID()/currtimeunix 
-							<< " || ETA: " << endtime << " " << flush;
+							<< " || ETA: " << endtime << " " << std::flush;
 		}
 		else if (pEvent->GetEventID() == 0) {
 			G4cout << currtime.str() << " || Start of first event || " << currtimeunix << "s initialization" << G4endl;

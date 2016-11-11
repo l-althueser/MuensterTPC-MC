@@ -17,19 +17,22 @@
 #include "muensterTPCAnalysisManager.hh"
 #include "muensterTPCPrimaryGeneratorAction.hh"
 
+#include <string.h>    
+#include <iostream>
+#include <sstream>
+
 /// Action initialization class.
 
 class muensterTPCActionInitialization : public G4VUserActionInitialization
 {
   public:
-  	muensterTPCActionInitialization(string, muensterTPCPrimaryGeneratorAction*);
+  	muensterTPCActionInitialization(std::string, muensterTPCPrimaryGeneratorAction*);
     virtual ~muensterTPCActionInitialization();
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
 
   private:
-		stringstream DatafileName;
   	muensterTPCAnalysisManager *pAnalysisManager;
   	muensterTPCPrimaryGeneratorAction *pPrimaryGeneratorAction;
 

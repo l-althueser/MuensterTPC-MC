@@ -37,7 +37,7 @@ private:
 	time_t starttimeunix, currtimeunix, endtimeunix;
 	tm *time_now, *time_end;
 	char endtime[80];
-	stringstream starttime, currtime;
+	std::stringstream starttime, currtime;
 	G4int m_iNbEventsToSimulate;
 };
 

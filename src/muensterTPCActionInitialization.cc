@@ -22,14 +22,13 @@
 #include "muensterTPCRunAction.hh"
 #include "muensterTPCEventAction.hh"
 
-muensterTPCActionInitialization::muensterTPCActionInitialization (string NewDatafileName, muensterTPCPrimaryGeneratorAction *pNewPrimaryGeneratorAction) {
-	DatafileName << NewDatafileName;	
+muensterTPCActionInitialization::muensterTPCActionInitialization (std::string NewDatafileName, muensterTPCPrimaryGeneratorAction *pNewPrimaryGeneratorAction) {	
 	pPrimaryGeneratorAction = pNewPrimaryGeneratorAction;
   
 	// create an analysis manager object
 	pAnalysisManager = new muensterTPCAnalysisManager(pPrimaryGeneratorAction);
 	// set the filename for the root datafile
-	pAnalysisManager->SetDataFilename(DatafileName.str());
+	pAnalysisManager->SetDataFilename(NewDatafileName);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

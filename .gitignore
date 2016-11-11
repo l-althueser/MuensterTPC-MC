@@ -27,6 +27,6 @@
 *.out
 *.app
 
-MuensterTPC-Simulation
+MuensterTPC-MC
 G4History.macro
 *.root

@@ -49,7 +49,7 @@
 #include "muensterTPCActionInitialization.hh"
 
 void usage();
-inline bool fileexists (const string& name);
+inline bool fileexists (const std::string& name);
 inline bool fileexists (const char* name);
 
 //******************************************************************/
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	tm *time_now;
 	time_un = time(0);
 	time_now = localtime(&time_un);
-	stringstream hTimeStamp;
+	std::stringstream hTimeStamp;
 	hTimeStamp << time_now->tm_year+1900 << "-" << time_now->tm_mon+1 
 		     << "-" << time_now->tm_mday << "_" << time_now->tm_hour
 		     << "-" << time_now->tm_min << "-" << time_now->tm_sec;
@@ -81,8 +81,8 @@ int main(int argc, char **argv)
 	bool bVerbosities = false;
 	int iVerbosities = 0;
 	int iNbEventsToSimulate = 0;
-	string hPreInitFilename, hMacroFilename, hDataFilename;
-	stringstream hStream;
+	std::string hPreInitFilename, hMacroFilename, hDataFilename;
+	std::stringstream hStream;
 	
 	// parse switches
 	// p: preinit with custom file
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 	if (bInteractive) {	ui = new G4UIExecutive(argc, argv, "Qt"); }
 	else if (!bMacroFile) { usage(); }
 	
-	stringstream DatafileName;
+	std::stringstream DatafileName;
 	DatafileName.clear();
  	size_t found;
 	if (bDataFilename) {
@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 	}
 	else {
 		if (bMacroFile) {
-			string hMacroFilenameshort = hMacroFilename;
+			std::string hMacroFilenameshort = hMacroFilename;
 			found=hMacroFilenameshort.find_last_of(".mac");
 			if (found!=std::string::npos) { hMacroFilenameshort=hMacroFilenameshort.substr(0,found-3); }
 			found=hMacroFilenameshort.find_last_of("/");
@@ -255,12 +255,12 @@ void usage() {
   exit(0);
 }
 
-inline bool fileexists (const string& name) {
+inline bool fileexists (const std::string& name) {
 	return fileexists(name.c_str());
 }
 
 inline bool fileexists (const char* name) {
-    ifstream f(name);
+    std::ifstream f(name);
     if (f.good()) {
         f.close();
         return true;
