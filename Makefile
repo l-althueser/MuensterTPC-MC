@@ -32,4 +32,4 @@ include $(G4INSTALL)/config/binmake.gmk
 
 # call this routine with 'make link' to create a new symlink of the binary
 link: 
-	[ -f $(name) ] || ln -s $(G4WORKDIR)/bin/Linux-g++/$(name) ./$(name)
+	[ -f $(name) ] || ln -s $(G4WORKDIR)/bin/$(G4SYSTEM)/$(name) ./$(name)
