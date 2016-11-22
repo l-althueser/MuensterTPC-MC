@@ -593,7 +593,7 @@ muensterTPCPhysicsList::ConstructOp()
 		if(particleName == "opticalphoton")
 		{
 			// Step limitation seen as a process
-      pmanager->AddProcess(new G4UserSpecialCuts(),-1,-1,1);
+		    pmanager->AddProcess(new G4UserSpecialCuts(),-1,-1,1);
 			pmanager->AddDiscreteProcess(theAbsorptionProcess);
 			pmanager->AddDiscreteProcess(theRayleighScatteringProcess);
 			pmanager->AddDiscreteProcess(theBoundaryProcess);
