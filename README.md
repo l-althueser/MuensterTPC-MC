@@ -1,4 +1,6 @@
 # MuensterTPC-Simulation
+[![license](https://img.shields.io/github/license/l-althueser/MuensterTPC-MC.svg)](./LICENSE.md) [![release](https://img.shields.io/github/release/l-althueser/MuensterTPC-MC.svg)](https://github.com/l-althueser/MuensterTPC-MC/releases) [![issues](https://img.shields.io/github/issues/l-althueser/MuensterTPC-MC.svg)](https://github.com/l-althueser/MuensterTPC-MC/issues) [![pr](https://img.shields.io/github/issues-pr/l-althueser/MuensterTPC-MC.svg)](https://github.com/l-althueser/MuensterTPC-MC/pulls) [![download master](https://img.shields.io/badge/download-master-green.svg)](https://github.com/l-althueser/MuensterTPC-MC/archive/master.zip)
+
 The MuensterTPC-Simulation was developed in order to built and test a small dual phase xenon TPC (height: 17cm, diameter: 8cm) at Muenster. This includes simulations with optical photons, external and internal radioactive sources. Some simulation results and plots can be found here: [bachelor thesis Althüser (2015)](https://www.uni-muenster.de/imperia/md/content/physik_kp/agweinheimer/theses/bachelor_lutz_althueser.pdf). This software stands under the BSD license (see [LICENSE](./LICENSE.md)).
 
 ## Installation Prerequisites
