@@ -1,8 +1,4 @@
-#/******************************************************************
-# * MuensterTPC-Simulation
-# * 
-# * optical photons - single phase in GXe
-# ******************************************************************/
+# override optical setup
 /Xe/detector/setLXeMeshMaterial GridMeshSS316LSteelGXe
 /Xe/detector/setGXeMeshMaterial GridMeshSS316LSteelGXe
 
@@ -12,10 +8,6 @@
 
 # switch on scintillation inside the TPC
 /Xe/detector/setLXeScintillation false
-# default teflon reflectivity is 0.95 - see detector construction
-/Xe/detector/setTeflonReflectivity 0.95
-# Set absorption length - see detector construction
-/Xe/detector/setLXeAbsorbtionLength 100 cm
 
 /Xe/gun/type Volume
 /Xe/gun/shape Cylinder

@@ -1,21 +1,5 @@
-#/******************************************************************
-# * MuensterTPC-Simulation
-# * 
-# * Cs137 - dual phase in LXe
-# ******************************************************************/
-/Xe/detector/setLXeMeshMaterial GridMeshSS316LSteelLXe
-/Xe/detector/setGXeMeshMaterial GridMeshSS316LSteelGXe
-
-# change the material of the LXe phase to another defined material
-# dont forget to remember that this changes the volume name
-/Xe/detector/setMat LXe
-
 # switch on scintillation inside the TPC
 /Xe/detector/setLXeScintillation false
-# default teflon reflectivity is 0.95 - see detector construction
-/Xe/detector/setTeflonReflectivity 0.95
-# Set absorption length - see detector construction
-/Xe/detector/setLXeAbsorbtionLength 100 cm
 
 # set properties of the point source
 /Xe/gun/type Point

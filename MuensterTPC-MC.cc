@@ -223,6 +223,8 @@ int main(int argc, char **argv)
 	
 	// run time parameter settings
 	if(bMacroFile) {
+		hCommand = "/control/execute macros/setup_optical_Muenster.mac";
+		pUImanager->ApplyCommand(hCommand);
 		hCommand = "/control/execute " + hMacroFilename;
 		pUImanager->ApplyCommand(hCommand);
 	}

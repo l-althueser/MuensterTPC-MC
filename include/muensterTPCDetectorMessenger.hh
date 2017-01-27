@@ -1,15 +1,3 @@
-/******************************************************************
- * muensterTPCsim
- * 
- * Simulations of the Muenster TPC
- * 
- * @author Lutz Althüser
- * @date   2015-04-14
- *
- * @update 2015-11-02 - added comments
- *
- * @comment
- ******************************************************************/
 #ifndef muensterTPCDetectorMessenger_h
 #define muensterTPCDetectorMessenger_h 1
 
@@ -43,13 +31,22 @@ private:
 	G4UIdirectory *m_pDetectorDir;
 
 	G4UIcmdWithADoubleAndUnit *m_pLXeLevelCmd;
-  G4UIcmdWithAString	*m_pMaterCmd;
-  G4UIcmdWithAString	*m_pLXeMeshMaterialCmd;
-  G4UIcmdWithAString	*m_pGXeMeshMaterialCmd;
+	G4UIcmdWithAString	*m_pMaterCmd;
+	G4UIcmdWithAString	*m_pLXeMeshMaterialCmd;
+	G4UIcmdWithAString	*m_pGXeMeshMaterialCmd;
 	G4UIcmdWithADouble *m_pTeflonReflectivityCmd;
+	G4UIcmdWithADouble *m_pGXeTeflonReflectivityCmd;
 	G4UIcmdWithABool *m_pLXeScintillationCmd;
 	G4UIcmdWithADoubleAndUnit *m_pLXeAbsorbtionLengthCmd;
+	G4UIcmdWithADoubleAndUnit *m_pGXeAbsorbtionLengthCmd;
 	G4UIcmdWithADoubleAndUnit *m_pLXeRayScatterLengthCmd;
+	G4UIcmdWithADouble *m_pLXeRefractionIndexCmd;
+	G4UIcmdWithADouble *m_pGridMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pBottomScreeningMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pTopScreeningMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pAnodeMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pCathodeMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pGateMeshTransparencyCmd;
 
 };
 #endif

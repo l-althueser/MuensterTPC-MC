@@ -78,6 +78,8 @@ void muensterTPCAnalysisManager::BeginOfRun(const G4Run *pRun) {
 		G4version->Write();
 		TNamed *G4MCname = new TNamed("MC_TAG","muensterTPC");
 		G4MCname->Write();
+		TNamed *G4MCVersion = new TNamed("MCVERSION_TAG","X.Y.Z");
+		G4MCname->Write();
 		
 		_events = m_pTreeFile->mkdir("events");
 		_events->cd();

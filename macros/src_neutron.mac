@@ -1,8 +1,3 @@
-#/******************************************************************
-# * MuensterTPC-Simulation
-# * 
-# * neutron
-# ******************************************************************/
 /Xe/gun/particle neutron
 /Xe/gun/position 0 0 -40 mm
 /Xe/gun/direction 0 0 1

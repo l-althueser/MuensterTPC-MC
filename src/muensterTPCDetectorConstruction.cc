@@ -1,17 +1,3 @@
-/******************************************************************
- * muensterTPCsim
- * 
- * Simulations of the Muenster TPC
- * 
- * @author 	Lutz Althüser, based on Xenon100 simulation
- * @date   	2015-04-14
- *
- * @update 	2015-10-01
- *					
- * @comment Inspired by the Xenon100 simulation package written by 
- *          Guillaume Plante
- ******************************************************************/
-
 // include GEANT4 classes
 #include <G4Material.hh>
 #include <G4NistManager.hh>
@@ -378,6 +364,30 @@ void muensterTPCDetectorConstruction::DefineMaterials() {
   pTeflonPropertiesTable->AddProperty("BACKSCATTERCONSTANT", pdTeflonPhotonMomentum, pdTeflonBackscatter, iNbEntries);
   pTeflonPropertiesTable->AddProperty("EFFICIENCY", pdTeflonPhotonMomentum, pdTeflonEfficiency, iNbEntries);
   Teflon->SetMaterialPropertiesTable(pTeflonPropertiesTable);
+
+  //------------------------------------ GXe teflon -----------------------------------
+  G4Material* GXeTeflon = new G4Material("GXeTeflon", 2.2*g/cm3, 2, kStateSolid);
+  GXeTeflon->AddElement(C, 0.240183);
+  GXeTeflon->AddElement(F, 0.759817);
+  
+  G4double pdGXeTeflonPhotonMomentum[iNbEntries]  = {6.91*eV, 6.98*eV, 7.05*eV};
+  G4double pdGXeTeflonRefractiveIndex[iNbEntries] = {1.63,    1.61,    1.58};
+  G4double pdGXeTeflonReflectivity[iNbEntries]    = {0.95,    0.95,    0.95};
+  G4double pdGXeTeflonSpecularLobe[iNbEntries]    = {0.01,    0.01,    0.01};
+  G4double pdGXeTeflonSpecularSpike[iNbEntries]   = {0.01,    0.01,    0.01};
+  G4double pdGXeTeflonBackscatter[iNbEntries]     = {0.01,    0.01,    0.01};
+  G4double pdGXeTeflonEfficiency[iNbEntries]      = {1.0,     1.0,     1.0};
+  
+  G4MaterialPropertiesTable *pGXeTeflonPropertiesTable = new G4MaterialPropertiesTable();
+  
+  pGXeTeflonPropertiesTable->AddProperty("RINDEX", pdGXeTeflonPhotonMomentum, pdGXeTeflonRefractiveIndex, iNbEntries);
+  pGXeTeflonPropertiesTable->AddProperty("REFLECTIVITY", pdGXeTeflonPhotonMomentum, pdGXeTeflonReflectivity, iNbEntries);
+  pGXeTeflonPropertiesTable->AddProperty("SPECULARLOBECONSTANT", pdGXeTeflonPhotonMomentum, pdGXeTeflonSpecularLobe, iNbEntries);
+  pGXeTeflonPropertiesTable->AddProperty("SPECULARSPIKECONSTANT", pdGXeTeflonPhotonMomentum, pdGXeTeflonSpecularSpike, iNbEntries);
+  pGXeTeflonPropertiesTable->AddProperty("BACKSCATTERCONSTANT", pdGXeTeflonPhotonMomentum, pdGXeTeflonBackscatter, iNbEntries);
+  pGXeTeflonPropertiesTable->AddProperty("EFFICIENCY", pdGXeTeflonPhotonMomentum, pdGXeTeflonEfficiency, iNbEntries);
+  
+  GXeTeflon->SetMaterialPropertiesTable(pGXeTeflonPropertiesTable);
 
   //------------------------------------- lead ------------------------------------
   G4Material *Lead = new G4Material("Lead", 11.34*g/cm3, 1);
@@ -773,6 +783,7 @@ void muensterTPCDetectorConstruction::ConstructInnerCryostat() {
   G4Material *Teflon = G4Material::GetMaterial("Teflon");
   G4Material *SS316LSteel = G4Material::GetMaterial("SS316LSteel");
   G4Material *Copper = G4Material::GetMaterial("Copper");
+  G4Material *GXeTeflon = G4Material::GetMaterial("GXeTeflon");
 
   //=============================== cryostat vessel ===============================
   const G4double dInnerCryostatVesselOffsetZ = GetGeometryParameter("InnerCryostatVesselOffsetZ"); 
@@ -1115,7 +1126,7 @@ void muensterTPCDetectorConstruction::ConstructTPC() {
 
   G4Tubs *pTopPTFESlabTubs = new G4Tubs("TopPTFESlabTubs", dTopPTFESlabInnerRadius,dTopPTFESlabOuterRadius, dTopPTFESlabHalfZ, 0.*deg, 360.*deg);
 
-  m_pTopPTFESlabLogicalVolume = new G4LogicalVolume(pTopPTFESlabTubs, PTFE, "TopPTFESlabLogicalVolume", 0, 0, 0);
+  m_pTopPTFESlabLogicalVolume = new G4LogicalVolume(pTopPTFESlabTubs, GXeTeflon, "TopPTFESlabLogicalVolume", 0, 0, 0);
 
   //m_pTopPTFESlabPhysicalVolume = new G4PVPlacement(0, G4ThreeVector(0., 0., dTopPTFESlabOffsetZ),
   // m_pTopPTFESlabLogicalVolume, "TopPTFESlab", m_pLXeLogicalVolume, false, 0);
@@ -1139,7 +1150,7 @@ void muensterTPCDetectorConstruction::ConstructTPC() {
 
   G4Tubs *pPTFETopPMTHolderTubs = new G4Tubs("PTFETopPMTHolderTubs", 0, dTopPMTHolderPlateRadius, dPTFETopPMTHolderHalfZ, 0.*deg, 360.*deg);
 
-  m_pPTFETopPMTHolderLogicalVolume = new G4LogicalVolume(pPTFETopPMTHolderTubs, PTFE, "PTFETopPMTHolderLogicalVolume", 0, 0, 0);
+  m_pPTFETopPMTHolderLogicalVolume = new G4LogicalVolume(pPTFETopPMTHolderTubs, GXeTeflon, "PTFETopPMTHolderLogicalVolume", 0, 0, 0);
 
   // m_pPTFETopPMTHolderPhysicalVolume = new G4PVPlacement(0, G4ThreeVector(0., 0., dPTFETopPMTHolderOffsetZ),
   // 							m_pPTFETopPMTHolderLogicalVolume, "PTFETopPMTHolder", m_pLXeLogicalVolume, false, 0);
@@ -1173,8 +1184,12 @@ void muensterTPCDetectorConstruction::ConstructTPC() {
 	G4OpticalSurface *pSS316LSteelOpticalSurface = new G4OpticalSurface("SS316LSteelOpticalSurface",
 		unified, polished, dielectric_metal, 0.);
 		
+	G4OpticalSurface *pGXeTeflonOpticalSurface = new G4OpticalSurface("GXeTeflonOpticalSurface", 
+		unified, groundbackpainted, dielectric_dielectric, dSigmaAlpha);
+		
 	pTeflonOpticalSurface->SetMaterialPropertiesTable(PTFE->GetMaterialPropertiesTable());
 	pSS316LSteelOpticalSurface->SetMaterialPropertiesTable(SS316LSteel->GetMaterialPropertiesTable());
+	pGXeTeflonOpticalSurface->SetMaterialPropertiesTable(GXeTeflon->GetMaterialPropertiesTable());
 	
 	new G4LogicalBorderSurface("LXeTeflonCylinderLogicalBorderSurface",
 		m_pLXePhysicalVolume, m_pPTFEInnerCylinderPhysicalVolume, pTeflonOpticalSurface);
@@ -1186,10 +1201,10 @@ void muensterTPCDetectorConstruction::ConstructTPC() {
 		m_pLXePhysicalVolume, m_pPTFEBottomPMTHolderPhysicalVolume, pTeflonOpticalSurface);
 
 	new G4LogicalBorderSurface("GXeTeflonPMTHolderLogicalBorderSurface",
-		m_pGXePhysicalVolume, m_pPTFETopPMTHolderPhysicalVolume, pTeflonOpticalSurface);
+		m_pGXePhysicalVolume, m_pPTFETopPMTHolderPhysicalVolume, pGXeTeflonOpticalSurface);
 
 	new G4LogicalBorderSurface("GXeTeflonSlabLogicalBorderSurface",
-		m_pGXePhysicalVolume, m_pTopPTFESlabPhysicalVolume, pTeflonOpticalSurface);
+		m_pGXePhysicalVolume, m_pTopPTFESlabPhysicalVolume, pGXeTeflonOpticalSurface);
 	
   //================================== attributes =================================
   G4Colour hCopperColor(0.835, 0.424, 0.059, CopperRingsAlphaChannel);
@@ -1461,6 +1476,7 @@ void muensterTPCDetectorConstruction::ConstructPmtArrays() {
   G4Material *Aluminium = G4Material::GetMaterial("PhotoCathodeAluminium"); //for the photocathode
   G4Material *Cirlex = G4Material::GetMaterial("Cirlex"); //for the base
   G4Material *GXe = G4Material::GetMaterial("GXe");
+  G4Material *GXeTeflon = G4Material::GetMaterial("GXeTeflon");
 
   //==================================== pmts =====================================
   //G4cout << "----- PMTs" << G4endl;
@@ -1866,7 +1882,7 @@ void muensterTPCDetectorConstruction::SetTeflonReflectivity(G4double dReflectivi
 
   if(pTeflonMaterial)
     {
-      G4cout << "\n----> Setting Teflon reflectivity to " << dReflectivity << G4endl;
+      G4cout << "----> Setting Teflon reflectivity to " << dReflectivity << G4endl;
 
       G4MaterialPropertiesTable *pTeflonPropertiesTable = pTeflonMaterial->GetMaterialPropertiesTable();
 		
@@ -1890,7 +1906,7 @@ void muensterTPCDetectorConstruction::SetSS304LSteelReflectivity(G4double dSteel
 
   if(pSteelMaterial)
     {
-      G4cout << "\n----> Setting SS304LSteel reflectivity to " << dSteelReflectivity << G4endl;
+      G4cout << "----> Setting SS304LSteel reflectivity to " << dSteelReflectivity << G4endl;
 
       G4MaterialPropertiesTable *pSteelPropertiesTable = pSteelMaterial->GetMaterialPropertiesTable();
 		
@@ -1986,7 +2002,7 @@ void muensterTPCDetectorConstruction::SetLXeMeshMaterial(const G4String& name) {
   }
 
   if(!mat) {
-    G4cout << "\n--> warning from DetectorConstruction::SetLXeMeshMaterial : "
+    G4cout << "--> warning from DetectorConstruction::SetLXeMeshMaterial : "
            << name << " not found" << G4endl;  
   } 
 }
@@ -2008,7 +2024,7 @@ void muensterTPCDetectorConstruction::SetGXeMeshMaterial(const G4String& name) {
   }
 
   if(!mat) {
-    G4cout << "\n--> warning from DetectorConstruction::SetLXeMeshMaterial : "
+    G4cout << "--> warning from DetectorConstruction::SetGXeMeshMaterial : "
            << name << " not found" << G4endl;  
   } 
 }
@@ -2038,7 +2054,7 @@ void muensterTPCDetectorConstruction::SetMaterial(const G4String& name) {
   }
 
   if(!mat) {
-    G4cout << "\n--> warning from DetectorConstruction::SetMaterial : "
+    G4cout << "--> warning from DetectorConstruction::SetMaterial : "
            << name << " not found" << G4endl;  
   } 
 }
@@ -2092,6 +2108,123 @@ void muensterTPCDetectorConstruction::SetLXeRayScatterLength(G4double dRayScatte
       exit(-1);
     }
 
+}
+
+void muensterTPCDetectorConstruction::setGXeMeshTransparency(G4double dTransparency)
+{
+  G4Material *pMeshMaterial = G4Material::GetMaterial(G4String("GridMeshSS316LSteelGXe"));
+  
+  if(pMeshMaterial)
+    {
+      G4cout << "----> Setting grid transparency to " << dTransparency*100 << " %" << G4endl;
+      G4double dAbsorptionLength =  ((G4double)GetGeometryParameter("GridMeshThickness"))/(-log(dTransparency)); 
+      G4MaterialPropertiesTable *pGateMeshPropertiesTable = pMeshMaterial->GetMaterialPropertiesTable();
+      const G4int iNbEntries = 3;
+      G4double pdMeshPhotonMomentum[iNbEntries] = {6.91*eV, 6.98*eV, 7.05*eV};
+      G4double pdMeshAbsorptionLength[iNbEntries] = {dAbsorptionLength, dAbsorptionLength, dAbsorptionLength};
+      pGateMeshPropertiesTable->RemoveProperty("ABSLENGTH");
+      pGateMeshPropertiesTable->AddProperty("ABSLENGTH", pdMeshPhotonMomentum, pdMeshAbsorptionLength, iNbEntries);
+   }
+  else
+    {
+      G4cout << "ls!> GridMeshSS316LSteelGXe not found!" << G4endl;
+      exit(-1);
+    }
+}
+
+void muensterTPCDetectorConstruction::setLXeMeshTransparency(G4double dTransparency)
+{
+  G4Material *pMeshMaterial = G4Material::GetMaterial(G4String("GridMeshSS316LSteelLXe"));
+  
+  if(pMeshMaterial)
+    {
+      G4cout << "----> Setting grid transparency to " << dTransparency*100 << " %" << G4endl;
+      G4double dAbsorptionLength =  ((G4double)GetGeometryParameter("GridMeshThickness"))/(-log(dTransparency)); 
+      G4MaterialPropertiesTable *pGateMeshPropertiesTable = pMeshMaterial->GetMaterialPropertiesTable();
+      const G4int iNbEntries = 3;
+      G4double pdMeshPhotonMomentum[iNbEntries] = {6.91*eV, 6.98*eV, 7.05*eV};
+      G4double pdMeshAbsorptionLength[iNbEntries] = {dAbsorptionLength, dAbsorptionLength, dAbsorptionLength};
+      pGateMeshPropertiesTable->RemoveProperty("ABSLENGTH");
+      pGateMeshPropertiesTable->AddProperty("ABSLENGTH", pdMeshPhotonMomentum, pdMeshAbsorptionLength, iNbEntries);
+   }
+  else
+    {
+      G4cout << "ls!> GridMeshSS316LSteelLXe not found!" << G4endl;
+      exit(-1);
+    }
+}
+
+void muensterTPCDetectorConstruction::SetGXeAbsorbtionLength(G4double dAbsorbtionLength)
+{
+  G4Material *pGXeMaterial = G4Material::GetMaterial(G4String("GXe"));
+  
+  if(pGXeMaterial)
+    {
+      G4cout << "----> Setting GXe absorbtion length to " << dAbsorbtionLength/m << " m" << G4endl;
+    
+      G4MaterialPropertiesTable *pGXePropertiesTable = pGXeMaterial->GetMaterialPropertiesTable();
+    
+      const G4int iNbEntries = 3;
+    
+      G4double GXe_PP[iNbEntries] = {6.91*eV, 6.98*eV, 7.05*eV};
+      G4double GXe_ABSL[iNbEntries] = {dAbsorbtionLength, dAbsorbtionLength, dAbsorbtionLength};
+      pGXePropertiesTable->RemoveProperty("ABSLENGTH");
+      pGXePropertiesTable->AddProperty("ABSLENGTH", GXe_PP, GXe_ABSL, iNbEntries);
+    }
+  else
+    {
+      G4cout << "ls!> GXe materials not found!" << G4endl;
+      exit(-1);
+    }
+}
+
+void muensterTPCDetectorConstruction::SetLXeRefractionIndex(G4double dRefractionIndex)
+{
+  G4Material *pLXeMaterial = G4Material::GetMaterial(G4String("LXe"));
+  
+  if(pLXeMaterial)
+    {
+      G4cout << "----> Setting LXe refraction index to " << dRefractionIndex << G4endl;
+    
+      G4MaterialPropertiesTable *pLXePropertiesTable = pLXeMaterial->GetMaterialPropertiesTable();
+	
+      const G4int iNbEntries = 3;
+    
+      G4double LXe_PP[iNbEntries] = {6.91*eV, 6.98*eV, 7.05*eV};
+      G4double LXe_RI[iNbEntries] = {dRefractionIndex, dRefractionIndex, dRefractionIndex};
+      pLXePropertiesTable->RemoveProperty("RINDEX");
+	  pLXePropertiesTable->AddProperty("RINDEX", LXe_PP, LXe_RI, iNbEntries);
+    }
+  else
+    {
+      G4cout << "ls!> LXe materials not found!" << G4endl;
+      exit(-1);
+    }
+}
+
+void muensterTPCDetectorConstruction::SetGXeTeflonReflectivity(G4double dGXeReflectivity)
+{
+  G4Material *pGXeTeflonMaterial = G4Material::GetMaterial(G4String("GXeTeflon"));
+  
+  if(pGXeTeflonMaterial)
+    {
+      G4cout << "----> Setting GXe Teflon reflectivity to " << dGXeReflectivity << G4endl;
+    
+      G4MaterialPropertiesTable *pGXeTeflonPropertiesTable = pGXeTeflonMaterial->GetMaterialPropertiesTable();
+    
+      const G4int iNbEntries = 3;
+    
+      G4double teflon_PP[iNbEntries] = { 6.91 * eV, 6.98 * eV, 7.05 * eV };
+      G4double teflon_REFL[iNbEntries] = {dGXeReflectivity, dGXeReflectivity, dGXeReflectivity};
+      pGXeTeflonPropertiesTable->RemoveProperty("REFLECTIVITY");
+      pGXeTeflonPropertiesTable->AddProperty("REFLECTIVITY", teflon_PP, teflon_REFL, iNbEntries);
+      //pTeflonPropertiesTable->DumpTable();
+   }
+  else
+    {
+      G4cout << "ls!> Teflon material not found!" << G4endl;
+      exit(-1);
+    }
 }
 
 //******************************************************************/

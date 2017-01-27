@@ -37,6 +37,7 @@ public:
 	G4VPhysicalVolume* Construct();
 
 	void SetTeflonReflectivity(G4double dReflectivity);
+	void SetGXeTeflonReflectivity(G4double dGXeReflectivity);
 	void SetSS304LSteelReflectivity(G4double dReflectivity);
 	void SetLXeScintillation(G4bool dScintillation);
 	void SetLXeLevel(G4double dlevel);
@@ -44,20 +45,25 @@ public:
 	void SetLXeMeshMaterial (const G4String&);
 	void SetGXeMeshMaterial (const G4String&);
 	void SetLXeAbsorbtionLength(G4double dAbsorbtionLength);
-  void SetLXeRayScatterLength(G4double dRayScatterLength);
+	void SetGXeAbsorbtionLength(G4double dAbsorbtionLength);
+	void SetLXeRayScatterLength(G4double dRayScatterLength);
+	void SetLXeRefractionIndex(G4double dRefractionIndex);
+	
+	void setLXeMeshTransparency(G4double dTransparency); 
+	void setGXeMeshTransparency(G4double dTransparency); 
 
 	static G4double GetGeometryParameter(const char *szParameter);
 
 public:
-  G4Material*	GetMaterial()	{return LXeMaterial;};
+	G4Material*	GetMaterial()	{return LXeMaterial;};
 
 private:
 	void DefineMaterials();
 	void DefineGeometryParameters();
-  void UpdateGeometry();
+	void UpdateGeometry();
 
 	G4Material* LXeMaterial;
-  G4UserLimits* fStepLimit;       // pointer to user step limits
+	G4UserLimits* fStepLimit;       // pointer to user step limits
 
 	void ConstructLaboratory();
 	void ConstructShield();
@@ -68,7 +74,7 @@ private:
 	void ConstructPmtSupports();
 	void ConstructPmtArrays();
 	void ConstructCryostat();
-  void ConstructInnerCryostat();
+	void ConstructInnerCryostat();
 	void ConstructOuterCryostat();
 
 	void PrintGeometryInformation();
@@ -99,7 +105,7 @@ private:
 	G4RotationMatrix *m_pRotationXPlus90;
 	G4RotationMatrix *m_pRotationXMinus90;
 	G4RotationMatrix *m_pRotationX180;
-  G4RotationMatrix *m_pRotationX0;
+	G4RotationMatrix *m_pRotationX0;
 
 	G4RotationMatrix *m_pRotationZTeflonLedBlock;
 
@@ -116,31 +122,31 @@ private:
   //mystuff
 	G4LogicalVolume *m_pLXeLogicalVolume;
 	G4LogicalVolume *m_pGXeLogicalVolume;
-  G4LogicalVolume *m_pVetoGXeLogicalVolume;
+	G4LogicalVolume *m_pVetoGXeLogicalVolume;
 	G4LogicalVolume *m_pLidInTubeGXeLogicalVolume;
-  G4LogicalVolume *m_pInnerCryostatVesselLogicalVolume;
+	G4LogicalVolume *m_pInnerCryostatVesselLogicalVolume;
  	G4LogicalVolume *m_pInnerCryostatBoreFlangeLogicalVolume;
 	G4LogicalVolume *m_pInnerCryostatBlindFlangeLogicalVolume;
 	G4LogicalVolume *m_pInnerCryostatCopperRingsLogicalVolume;
 	G4LogicalVolume *m_pOuterCryostatVesselLogicalVolume;
 	G4LogicalVolume *m_pOuterCryostatVacuumLogicalVolume;
 
- 	G4LogicalVolume *m_pPTFEInnerCylinderLogicalVolume;
-  G4LogicalVolume *m_pPTFEOuterCylinderLogicalVolume;
-  G4LogicalVolume *m_pPTFEBottomPMTHolderLogicalVolume;
-  G4LogicalVolume *m_pPTFETopPMTHolderLogicalVolume;
-  G4LogicalVolume *m_pBottomPTFESlabLogicalVolume;
-  G4LogicalVolume *m_pTopPTFESlabLogicalVolume;
-  G4LogicalVolume *m_pCopperRingsLogicalVolume;	
+	G4LogicalVolume *m_pPTFEInnerCylinderLogicalVolume;
+	G4LogicalVolume *m_pPTFEOuterCylinderLogicalVolume;
+	G4LogicalVolume *m_pPTFEBottomPMTHolderLogicalVolume;
+	G4LogicalVolume *m_pPTFETopPMTHolderLogicalVolume;
+	G4LogicalVolume *m_pBottomPTFESlabLogicalVolume;
+	G4LogicalVolume *m_pTopPTFESlabLogicalVolume;
+	G4LogicalVolume *m_pCopperRingsLogicalVolume;	
 	G4LogicalVolume *m_pCathodeGridMeshSupportLogicalVolume;
-  G4LogicalVolume *m_pGridMeshSupportLogicalVolume;
-  G4LogicalVolume *m_pGridMeshLXeLogicalVolume;
+	G4LogicalVolume *m_pGridMeshSupportLogicalVolume;
+	G4LogicalVolume *m_pGridMeshLXeLogicalVolume;
 	G4LogicalVolume *m_pGridMeshGXeLogicalVolume;
 	G4LogicalVolume *m_pGridMeshBorderLogicalVolume;
-  G4LogicalVolume *m_pBottomSteelRingLogicalVolume;
-  G4LogicalVolume *m_pOuterCryostatBoreFlangeLogicalVolume;
+	G4LogicalVolume *m_pBottomSteelRingLogicalVolume;
+	G4LogicalVolume *m_pOuterCryostatBoreFlangeLogicalVolume;
 	G4LogicalVolume *m_pOuterCryostatBlindFlangeLogicalVolume;
-  G4LogicalVolume *m_pSpaceBelowTopPMTLogicalVolume;
+	G4LogicalVolume *m_pSpaceBelowTopPMTLogicalVolume;
 
 	G4LogicalVolume *m_pBellLogicalVolume;	
 	G4LogicalVolume *m_pTopPmtTeflonHolderLogicalVolume;
@@ -240,29 +246,29 @@ private:
 	G4VPhysicalVolume *m_pVetoGXePhysicalVolume;
 	G4VPhysicalVolume *m_pLidInTubeGXePhysicalVolume;
 
-  G4VPhysicalVolume *m_pPTFEInnerCylinderPhysicalVolume;
-  G4VPhysicalVolume *m_pPTFEOuterCylinderPhysicalVolume;
-  G4VPhysicalVolume *m_pPTFEBottomPMTHolderPhysicalVolume;
- 	G4VPhysicalVolume *m_pPTFETopPMTHolderPhysicalVolume;
-  G4VPhysicalVolume *m_pBottomPTFESlabPhysicalVolume;
-  G4VPhysicalVolume *m_pTopPTFESlabPhysicalVolume;
-  G4VPhysicalVolume *m_pCopperRingsPhysicalVolume;
-  G4VPhysicalVolume *m_pInnerCryostatVesselPhysicalVolume;
-  G4VPhysicalVolume *m_pBottomSteelRingPhysicalVolume;
+	G4VPhysicalVolume *m_pPTFEInnerCylinderPhysicalVolume;
+	G4VPhysicalVolume *m_pPTFEOuterCylinderPhysicalVolume;
+	G4VPhysicalVolume *m_pPTFEBottomPMTHolderPhysicalVolume;
+	G4VPhysicalVolume *m_pPTFETopPMTHolderPhysicalVolume;
+	G4VPhysicalVolume *m_pBottomPTFESlabPhysicalVolume;
+	G4VPhysicalVolume *m_pTopPTFESlabPhysicalVolume;
+	G4VPhysicalVolume *m_pCopperRingsPhysicalVolume;
+	G4VPhysicalVolume *m_pInnerCryostatVesselPhysicalVolume;
+	G4VPhysicalVolume *m_pBottomSteelRingPhysicalVolume;
 	G4VPhysicalVolume *m_pOuterCryostatVesselPhysicalVolume;
 	G4VPhysicalVolume *m_pOuterCryostatVacuumPhysicalVolume;
 
-  G4VPhysicalVolume *m_pCathodeGridMeshSupportPhysicalVolume;
+	G4VPhysicalVolume *m_pCathodeGridMeshSupportPhysicalVolume;
 	vector<G4VPhysicalVolume *> m_hCopperRingsPhysicalVolumes;
-  vector<G4VPhysicalVolume *> m_hGridMeshSupportPhysicalVolumes;	
+	vector<G4VPhysicalVolume *> m_hGridMeshSupportPhysicalVolumes;	
 	vector<G4VPhysicalVolume *> m_hGridMeshPhysicalVolumes;
 	vector<G4VPhysicalVolume *> m_hGridMeshBorderPhysicalVolumes;
-  vector<G4VPhysicalVolume *> m_hInnerCryostatBoreFlangePhysicalVolumes;
-  vector<G4VPhysicalVolume *> m_hInnerCryostatBlindFlangePhysicalVolumes;
+	vector<G4VPhysicalVolume *> m_hInnerCryostatBoreFlangePhysicalVolumes;
+	vector<G4VPhysicalVolume *> m_hInnerCryostatBlindFlangePhysicalVolumes;
 	vector<G4VPhysicalVolume *> m_hInnerCryostatCopperRingsPhysicalVolumes;
-  vector<G4VPhysicalVolume *> m_hOuterCryostatBoreFlangePhysicalVolumes;
- 	vector<G4VPhysicalVolume *> m_hOuterCryostatBlindFlangePhysicalVolumes;
-  vector<G4VPhysicalVolume *> m_hSpaceBelowTopPMTPhysicalVolumes;
+	vector<G4VPhysicalVolume *> m_hOuterCryostatBoreFlangePhysicalVolumes;
+	vector<G4VPhysicalVolume *> m_hOuterCryostatBlindFlangePhysicalVolumes;
+	vector<G4VPhysicalVolume *> m_hSpaceBelowTopPMTPhysicalVolumes;
 
 	G4VPhysicalVolume *m_pBellPhysicalVolume;
 	G4VPhysicalVolume *m_pTopPmtTeflonHolderPhysicalVolume;
@@ -270,8 +276,8 @@ private:
 	vector<G4VPhysicalVolume *> m_hTopVetoAnglePhysicalVolumes;
 	vector<G4VPhysicalVolume *> m_hUpperSideVetoAnglePhysicalVolumes;
 	vector<G4VPhysicalVolume *> m_hBellSupportCylinderInLXePhysicalVolumes;
-  G4VPhysicalVolume *m_pBellSupportCylinderInVetoGXe1PhysicalVolume;
-  G4VPhysicalVolume *m_pBellSupportCylinderInVetoGXe2PhysicalVolume;
+	G4VPhysicalVolume *m_pBellSupportCylinderInVetoGXe1PhysicalVolume;
+	G4VPhysicalVolume *m_pBellSupportCylinderInVetoGXe2PhysicalVolume;
 
 	G4VPhysicalVolume *m_pTopGridMeshPhysicalVolume;
 	G4VPhysicalVolume *m_pTopGridRingPhysicalVolume;
