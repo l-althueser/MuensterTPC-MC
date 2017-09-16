@@ -49,8 +49,8 @@ public:
 	void SetLXeRayScatterLength(G4double dRayScatterLength);
 	void SetLXeRefractionIndex(G4double dRefractionIndex);
 	
-	void setLXeMeshTransparency(G4double dTransparency); 
-	void setGXeMeshTransparency(G4double dTransparency); 
+	void SetLXeMeshTransparency(G4double dTransparency); 
+	void SetGXeMeshTransparency(G4double dTransparency); 
 
 	static G4double GetGeometryParameter(const char *szParameter);
 

@@ -16,14 +16,14 @@ git clone https://github.com/l-althueser/MuensterTPC-Simulation.git
 ```
 Second you have to compile the Geant4 code and link correctly to the generated binary file. (Note: You can always rename `MuensterTPC-Simulation.cc` to `MuensterTPC-*.cc` and the makefile will still work.)
 ```
-cd MuensterTPC-Simulation
+cd MuensterTPC-MC
 make clean
 make
 make link
 ```
 Now you should be able to run the simulation in `interactive` mode by typing:
 ```
-./MuensterTPC-Simulation
+./MuensterTPC-MC
 ```
 
 ## MuensterTPC-Simulation Tutorial
@@ -36,7 +36,7 @@ This section assumes that the MuensterTPC-Simulation is installed and all prereq
 ### Usage
 The simulation offers the possibility to use some arguments in order to adjust every run time parameter.
 ```
-./MuensterTPC-Simulation -p <custom_preinit.mac> -f <source_definition.mac> -o <outputfilename> -n <number_of_events> -v <verbositie_level> -i
+./MuensterTPC-MC -p <custom_preinit.mac> -f <source_definition.mac> -o <outputfilename> -n <number_of_events> -v <verbositie_level> -i
 ```
 * `-p <custom_preinit.mac>`: A default `preinit.mac` will be used if no custom file is given.
 * `-f <source_definition.mac>`: This parameter has to be specified if `-i` is not set.
@@ -47,7 +47,7 @@ The simulation offers the possibility to use some arguments in order to adjust e
 
 ### Simple `opticalphoton` simulation
 ```
-./MuensterTPC-Simulation -f ./macros/src_optPhot_DP.mac -o optPhot_1e8.root -n 100000000
+./MuensterTPC-MC -f ./macros/src_optPhot_DP_S1.mac -o optPhot_S1_1e5.root -n 100000
 ```
 
 ### Advanced custom simulation

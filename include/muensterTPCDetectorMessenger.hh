@@ -42,11 +42,8 @@ private:
 	G4UIcmdWithADoubleAndUnit *m_pLXeRayScatterLengthCmd;
 	G4UIcmdWithADouble *m_pLXeRefractionIndexCmd;
 	G4UIcmdWithADouble *m_pGridMeshTransparencyCmd;
-	G4UIcmdWithADouble *m_pBottomScreeningMeshTransparencyCmd;
-	G4UIcmdWithADouble *m_pTopScreeningMeshTransparencyCmd;
-	G4UIcmdWithADouble *m_pAnodeMeshTransparencyCmd;
-	G4UIcmdWithADouble *m_pCathodeMeshTransparencyCmd;
-	G4UIcmdWithADouble *m_pGateMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pLXeMeshTransparencyCmd;
+	G4UIcmdWithADouble *m_pGXeMeshTransparencyCmd;
 
 };
 #endif

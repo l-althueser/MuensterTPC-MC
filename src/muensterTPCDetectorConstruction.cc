@@ -1045,6 +1045,7 @@ void muensterTPCDetectorConstruction::ConstructTPC() {
 
   G4Material *SS316LSteel = G4Material::GetMaterial("SS316LSteel");
   G4Material *PTFE = G4Material::GetMaterial("Teflon");
+  G4Material *GXeTeflon = G4Material::GetMaterial("GXeTeflon");
 
   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< PTFE Inner cylinder >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const G4double dPTFEInnerCylinderOffsetZ = dLXeLevelZeroOffset-0.5*dTeflonCentralCylinderHeight-dLiquidLevelToGateMesh;
@@ -2110,7 +2111,7 @@ void muensterTPCDetectorConstruction::SetLXeRayScatterLength(G4double dRayScatte
 
 }
 
-void muensterTPCDetectorConstruction::setGXeMeshTransparency(G4double dTransparency)
+void muensterTPCDetectorConstruction::SetGXeMeshTransparency(G4double dTransparency)
 {
   G4Material *pMeshMaterial = G4Material::GetMaterial(G4String("GridMeshSS316LSteelGXe"));
   
@@ -2132,7 +2133,7 @@ void muensterTPCDetectorConstruction::setGXeMeshTransparency(G4double dTranspare
     }
 }
 
-void muensterTPCDetectorConstruction::setLXeMeshTransparency(G4double dTransparency)
+void muensterTPCDetectorConstruction::SetLXeMeshTransparency(G4double dTransparency)
 {
   G4Material *pMeshMaterial = G4Material::GetMaterial(G4String("GridMeshSS316LSteelLXe"));
   

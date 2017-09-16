@@ -89,7 +89,7 @@ muensterTPCDetectorMessenger::muensterTPCDetectorMessenger(muensterTPCDetectorCo
 	m_pLXeRayScatterLengthCmd->SetUnitCategory("Length");
 	m_pLXeRayScatterLengthCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 	
-	m_pLXeMeshTransparencyCmd = new G4UIcmdWithADouble("/Xe/detector/setLXeMeshMeshTransparency", this);
+	m_pLXeMeshTransparencyCmd = new G4UIcmdWithADouble("/Xe/detector/setLXeMeshTransparency", this);
 	m_pLXeMeshTransparencyCmd->SetGuidance("Define LXe mesh transparency.");
 	m_pLXeMeshTransparencyCmd->SetParameterName("Transpa", false);
 	m_pLXeMeshTransparencyCmd->SetRange("Transpa >= 0. && Transpa <= 1.");
