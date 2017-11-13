@@ -7,7 +7,7 @@ Some analysis scripts are available in another repository: [MC-Analyzer](https:/
 This software can only be used with `GEANT4 10.02.p01 64bit` in Linux or Windows Subsystem for Linux. 
 
 ## Installing the MuensterTPC-Simulation
-There are two ways to install this simulation. Option one is to youse the GitHub interface to download and extract the master branch to a specific directory ([download link](https://github.com/l-althueser/MuensterTPC-Simulation/archive/master.zip)). Option two will follow the real GitHub way of doing this ..  
+There are two ways to install this simulation. Option one is to use the GitHub interface to download and extract the master branch to a specific directory ([download link](https://github.com/l-althueser/MuensterTPC-Simulation/archive/master.zip)). Option two will follow the real GitHub way of doing this ..  
 
 First `cd` to the folder you want the Analyzer to be installed (this should be your `geant4_workdir`). Therefore we assume that Geant4 is correctly installed. Then run:
 ```
