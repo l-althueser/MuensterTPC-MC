@@ -1,5 +1,5 @@
-# MuensterTPC-Simulation
-The MuensterTPC-Simulation was developed in order to built and test a small dual phase xenon TPC (height: 17cm, diameter: 8cm) at Muenster. This includes simulations with optical photons, external and internal radioactive sources. Some simulation results and plots can be found here: [bachelor thesis Althüser (2015)](https://www.uni-muenster.de/imperia/md/content/physik_kp/agweinheimer/theses/bachelor_lutz_althueser.pdf). This software stands under the BSD license (see [LICENSE](./LICENSE.md)).
+# MuensterTPC-MC
+The MuensterTPC Monte Carlo (MC) simulation was developed in order to built and test a small dual phase xenon TPC (height: 17cm, diameter: 8cm) at Muenster. This includes simulations with optical photons, external and internal radioactive sources. Some simulation results and plots can be found here: [bachelor thesis Althüser (2015)](https://www.uni-muenster.de/imperia/md/content/physik_kp/agweinheimer/theses/bachelor_lutz_althueser.pdf). This software stands under the BSD license (see [LICENSE](./LICENSE.md)).
 
 Some analysis scripts are available in another repository: [MC-Analyzer](https://github.com/l-althueser/MC-Analyzer)
 
