@@ -172,7 +172,7 @@ void muensterTPCAnalysisManager::BeginOfRun(const G4Run *pRun) {
 		// time:	timestamp of the current particle/trackid
 		// 				Acces in ROOT: 		vector<float> *time= new vector<float>;
 		//													T1->SetBranchAddress("time", &time);
-		m_pTree->Branch("time", "vector<float>", &m_pEventData->m_pTime);
+		m_pTree->Branch("time", "vector<double>", &m_pEventData->m_pTime);
 
 		//******************************************************************/	
 		// branches for each event/particle which contain information about the primary particle
